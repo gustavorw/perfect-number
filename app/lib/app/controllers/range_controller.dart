@@ -30,13 +30,12 @@ class RangeController extends ValueNotifier<RangeState> {
   final FindPerfectsInRange findPerfectsInRange;
 
   void find(String start, String end) {
+    setLoading();
     final sNum = num.parse(start);
     final eNum = num.parse(end);
 
     final s = BigInt.from(sNum);
     final e = BigInt.from(eNum);
-
-    setLoading();
 
     final perfects = findPerfectsInRange(s, e);
 
@@ -44,6 +43,4 @@ class RangeController extends ValueNotifier<RangeState> {
   }
 
   void setLoading() => value = RangeLoading();
-
- 
 }
