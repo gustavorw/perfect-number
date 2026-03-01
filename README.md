@@ -16,6 +16,16 @@ Desafio: Crie um aplicativo móvel com interface gráfica que contenha duas func
 
 ---
 
+## O que é um Número Perfeito
+
+Um número perfeito é um inteiro positivo que é igual à soma de todos os seus divisores positivos próprios (isto é, todos os divisores excluindo ele mesmo). Exemplos clássicos:
+
+- 6 = 1 + 2 + 3
+- 28 = 1 + 2 + 4 + 7 + 14
+- 496 = 1 + 2 + 4 + 8 + 16 + 31 + 62 + 124 + 248
+
+No projeto usaremos a propriedade matemática associada aos números perfeitos pares: se p é primo e 2^p - 1 é primo (um primo de Mersenne), então (2^{p-1}) * (2^p - 1) é um número perfeito.
+
 ## Algoritmos usados e explicação
 
 O projeto faz uso de dois algoritmos principais para detectar números perfeitos e buscar primos candidatos:
