@@ -45,10 +45,9 @@ class _PerfectNumberViewState extends State<PerfectNumberView>
       appBar: AppBar(
         leading: Icon(Icons.calculate_outlined, color: AppColors.textPrimary),
         backgroundColor: AppColors.background,
-        title: Icon(
-          Icons.calculate_outlined,
-          color: AppColors.textPrimary,
-          size: 34,
+        title: Text(
+         'Calcular número perfeito',
+         style: AppTextStyle.appTitle,
         ),
       ),
       body: Padding(

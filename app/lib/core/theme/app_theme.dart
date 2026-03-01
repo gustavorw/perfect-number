@@ -48,6 +48,12 @@ class AppTextStyle {
     fontWeight: FontWeight.bold,
     letterSpacing: -0.5,
   );
+
+   static TextStyle appTitle = const TextStyle(
+    color: AppColors.textPrimary,
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  );
   static TextStyle titleCard = TextStyle(
     color: AppColors.textPrimary,
     fontWeight: FontWeight.w600,
