@@ -26,45 +26,63 @@ Um número perfeito é um inteiro positivo que é igual à soma de todos os seus
 
 No projeto usaremos a propriedade matemática associada aos números perfeitos pares: se p é primo e 2^p - 1 é primo (um primo de Mersenne), então (2^{p-1}) * (2^p - 1) é um número perfeito.
 
-## Algoritmos usados e explicação
+## Algoritmos usados
 
-O projeto faz uso de dois algoritmos principais para detectar números perfeitos e buscar primos candidatos:
+Para a solução fez uso dos seguintes algoritmos:
 
-1) Crivo de Eratóstenes (Sieve of Eratosthenes)
-
-- Objetivo: gerar uma lista de números primos até um limite n (usado para gerar possíveis expoentes p).
-- Como funciona (resumo): inicializa um vetor booleano marcando todos como primos e então itera de 2 até sqrt(n), marcando múltiplos como compostos. O resultado é a lista de índices marcados como primos.
-- Complexidade: tempo O(n log log n), espaço O(n).
-- Uso no projeto: em `app/lib/core/algorithm/sieve_eratosthenes_algorithm.dart` — gera expoentes candidatos p para testes de Mersenne.
-
-2) Teste de Lucas–Lehmer (LucasLehmerAlgorithm)
-
-- Objetivo: verificar se um número da forma 2^p - 1 (número de Mersenne) é primo, onde p é primo.
-- Como funciona (resumo): para p > 2, calcula recorrentemente s_{i+1} = s_i^2 - 2 mod M_p, com s_0 = 4, onde M_p = 2^p - 1. Se após p-2 iterações s == 0, então M_p é primo.
-- Complexidade: aproximadamente O(p^2) para aritmética de inteiros grandes, dado que envolve expoentes e operações mod sobre BigInt. Para os casos usados (ex: p até limites modestos), é aceitável.
-- Uso no projeto: em `app/lib/core/algorithm/lucas_lehmer_algorithm.dart` — valida se 2^p-1 é primo; quando verdadeiro, gera o número perfeito correspondente.
-
-3) Geração do número perfeito
-
-- Propriedade utilizada: se p é primo e 2^p - 1 é primo (Primo de Mersenne), então (2^{p-1}) * (2^p - 1) é um número perfeito par.
-- O projeto percorre a lista de expoentes primos (do Crivo), aplica o teste de Lucas–Lehmer e, quando M_p é primo, calcula o número perfeito e o coleta se estiver dentro do intervalo pedido.
-
-Observações de implementação
-- Para evitar trabalho desnecessário o crivo gera expoentes candidatos até um limite configurável (por exemplo 1000 no código atual). Números perfeitos crescem rapidamente; portanto o loop interrompe quando o perfeito calculado ultrapassa o fim do intervalo.
-- A implementação usa `BigInt` para acomodar rapidamente valores grandes de 2^p.
-
+* [Crivo de Eratóstenes](https://cp-algorithms.com/algebra/sieve-of-eratosthenes.html)
+* [Lucas Lehmer](https://en.wikipedia.org/wiki/Lucas%E2%80%93Lehmer_primality_test)
+* [Mersenne](https://en.wikipedia.org/wiki/Mersenne_prime)
+* [Euclides Euler](https://pt.wikipedia.org/wiki/Teorema_de_Euclides-Euler)
 ---
+## Solução 
+1. Geração de Candidatos (Crivo de Eratóstenes)O algoritmo inicia gerando uma lista de números primos pequenos (ex: até 1000).Esses números são usados como expoentes ($p$).
+    - Por que? De acordo com a regra de Mersenne, para que $2^p - 1$ seja um número primo, o próprio expoente $p$ deve ser um número primo. O Crivo elimina candidatos inválidos logo no início.
+2. Teste de Primalidade (Algoritmo de Lucas-Lehmer)Para cada primo $p$ encontrado, verificamos se o número de Mersenne correspondente ($M_p = 2^p - 1$) é realmente primo.
+   - O Teste: Utilizamos a sequência de Lucas-Lehmer: $S_{n} = (S_{n-1}^2 - 2) \pmod{M_p}$, começando com $S_0 = 4$.
+   - Resultado: Se o resto final for $0$, temos em mãos um Primo de Mersenne.
+3. Construção do Número Perfeito (Teorema de Euclides-Euler)Uma vez confirmado que $M_p$ é um primo de Mersenne, aplicamos a fórmula milenar de Euclides:$$Perfect = 2^{p-1} \times (2^p - 1)$$O número gerado por esta fórmula é garantidamente um Número Perfeito (um número que é igual à soma de seus divisores próprios).
+
+
+Um exemplo pratico (p = 5):
+1. Crivo: Identifica que 5 é primo.
+2. Lucas-Lehmer: Testa $M_5$ ($2^5 - 1 = 31$). O teste retorna true (31 é primo).
+3. Euclides-Euler: Calcula $2^{5-1} \times 31 = 16 \times 31 = 496$.
+4. Verificação: Se o número de entrada for 496, o algoritmo retorna true. 
+
+
+No repositorio encontra-se os algoritmos usados.
 
 ## Estrutura do repositório (resumo)
 
-- `app/lib/core/algorithm/`
-  - `sieve_eratosthenes_algorithm.dart` — Crivo de Eratóstenes
-  - `lucas_lehmer_algorithm.dart` — Teste de Lucas–Lehmer
-- `app/lib/app/usecases/`
-  - `is_perfect_number.dart` — verifica se um BigInt é um número perfeito
-  - `find_perfects_in_range.dart` — encontra perfeitos em um intervalo
-- `app/lib/app/controllers/` — controllers que expõem estados para a UI (SingleNumber, Range)
-- `app/test/` — testes unitários para os algoritmos e casos de uso
+Esta seção descreve a organização do código e a responsabilidade de cada camada/folder principal.
+
+- `app/lib/core/` — Código de baixo nível e utilitários reutilizáveis
+  - `core/algorithm/` — Implementações dos algoritmos matemáticos (Crivo de Eratóstenes, Lucas–Lehmer, etc.). São funções puras que podem ser testadas isoladamente.
+  - `core/validators/` — Validadores de entrada (ex.: `NumberValidator`), usados pela camada de UI/forms.
+
+- `app/lib/app/` — Camada de aplicação (órgão de coordenação entre UI e domínio)
+  - `usecases/` — Casos de uso / regras de negócio (ex.: `is_perfect_number.dart`, `find_perfects_in_range.dart`). Cada usecase encapsula uma tarefa específica e pode ser testado independentemente.
+  - `controllers/` — Controladores reativos (ValueNotifiers) que expõem estados para a UI. Responsáveis por orquestrar validação, chamar usecases e emitir estados (loading, success, error).
+  - `view/` — Widgets e telas (forms, views, widgets compartilhados). Aqui ficam componentes específicos da interface, que consomem os `controllers`.
+  - `theme/` — Definições de cores, tipografia e temas (ex.: `app_theme.dart`).
+
+- `app/lib/shared/widgets/` (ou `app/lib/app/view/widgets/`) — Widgets reutilizáveis de UI (botões, inputs, componentes de formulário).
+
+- `test/` — Testes automatizados
+  - `core/` — testes para algoritmos e utilitários (Crivo, Lucas–Lehmer, validações)
+  - `app/` — testes para usecases e integração lógica (ex.: `is_perfect_number_test.dart`, `find_perfects_in_range_test.dart`)
+
+
+
+
+Responsabilidades por camada (resumido)
+
+- UI / View: renderizar dados e capturar interação do usuário; delega validações simples para validators e ações para controllers.
+- Controllers: manter estado da UI (ValueNotifier), validar entradas, acionar usecases e mapear resultados para estados de apresentação.
+- Usecases (aplicação): conter regras de negócio e fluxo principal (por exemplo: como buscar números perfeitos dentro de um intervalo), coordenando algoritmos do `core`.
+- Core (algoritmos & utilitários): implementação pura de algoritmos (testáveis); sem dependências de UI ou Flutter.
+- Tests: garantir comportamento correto das unidades e integração mínima entre camadas.
 
 ---
 
