@@ -28,7 +28,7 @@ No projeto usaremos a propriedade matemática associada aos números perfeitos p
 
 ## Algoritmos usados
 
-Para a solução fez uso dos seguintes algoritmos:
+A solução faz uso dos seguintes algoritmos:
 
 * [Crivo de Eratóstenes](https://cp-algorithms.com/algebra/sieve-of-eratosthenes.html)
 * [Lucas Lehmer](https://en.wikipedia.org/wiki/Lucas%E2%80%93Lehmer_primality_test)
