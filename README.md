@@ -6,6 +6,10 @@ Desafio: Crie um aplicativo móvel com interface gráfica que contenha duas func
 2. Encontrar todos os NÚMEROS PERFEITOS entre dois números fornecidos na interface pelo usuário;
 
 ---
+## App Demo
+![](https://github.com/gustavorw/perfect-number/blob/main/record.gif)
+
+---
 
 ## Tecnologias usadas
 
