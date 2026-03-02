@@ -24,7 +24,7 @@ Um número perfeito é um inteiro positivo que é igual à soma de todos os seus
 - 28 = 1 + 2 + 4 + 7 + 14
 - 496 = 1 + 2 + 4 + 8 + 16 + 31 + 62 + 124 + 248
 
-No projeto usaremos a propriedade matemática associada aos números perfeitos pares: se p é primo e 2^p - 1 é primo (um primo de Mersenne), então (2^{p-1}) * (2^p - 1) é um número perfeito.
+No projeto usaremos a propriedade matemática associada aos números perfeitos pares: se p é primo e 2^p - 1 é primo (um primo de Mersenne), então $$(2^{p-1}) \cdot (2^p - 1)$$ é um número perfeito.
 
 ## Algoritmos usados
 
@@ -41,7 +41,7 @@ Para a solução fez uso dos seguintes algoritmos:
 2. Teste de Primalidade (Algoritmo de Lucas-Lehmer)Para cada primo $p$ encontrado, verificamos se o número de Mersenne correspondente ($M_p = 2^p - 1$) é realmente primo.
    - O Teste: Utilizamos a sequência de Lucas-Lehmer: $S_{n} = (S_{n-1}^2 - 2) \pmod{M_p}$, começando com $S_0 = 4$.
    - Resultado: Se o resto final for $0$, temos em mãos um Primo de Mersenne.
-3. Construção do Número Perfeito (Teorema de Euclides-Euler)Uma vez confirmado que $M_p$ é um primo de Mersenne, aplicamos a fórmula milenar de Euclides:$$Perfect = 2^{p-1} \times (2^p - 1)$$O número gerado por esta fórmula é garantidamente um Número Perfeito (um número que é igual à soma de seus divisores próprios).
+3. Construção do Número Perfeito (Teorema de Euclides-Euler)Uma vez confirmado que $M_p$ é um primo de Mersenne, aplicamos a fórmula milenar de Euclides: <br> $$Perfect = 2^{p-1} \times (2^p - 1)$$ <br> O número gerado por esta fórmula é garantidamente um Número Perfeito (um número que é igual à soma de seus divisores próprios).
 
 
 Um exemplo pratico (p = 5):
