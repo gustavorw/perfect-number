@@ -7,7 +7,10 @@ Desafio: Crie um aplicativo móvel com interface gráfica que contenha duas func
 
 ---
 ## App Demo
-![](https://github.com/gustavorw/perfect-number/blob/main/record.gif)
+
+<p align="center">
+  <img src="https://github.com/gustavorw/perfect-number/blob/main/record.gif" width="50%" alt="Descrição do GIF">
+</p>
 
 ---
 
